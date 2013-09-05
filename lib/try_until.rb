@@ -1,1 +1,1 @@
-require 'try_until/attempt'
+require 'try_until/probe'
