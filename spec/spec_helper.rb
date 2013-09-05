@@ -14,4 +14,4 @@ RSpec.configure do |config|
   config.order = 'random'
 end
 
-require 'otravez'
+require 'try_until'
