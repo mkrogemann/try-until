@@ -3,10 +3,14 @@ require 'spec_helper'
 module TryUntil
   describe Probe do
     describe '#initialize' do
-      it 'sets default values if no block is given' do
-        probe = Probe.new do
-        end
+      it 'sets default values if empty block is given' do
+        probe = Probe.new {}
         probe.instance_variable_get(:@tries).should == 3
+      end
+
+      it 'sets default values if no block is given' do
+        probe = Probe.new
+        probe.instance_variable_get(:@timeout).should == :never
       end
 
       it 'takes a block that contains its configuration' do

@@ -15,7 +15,7 @@ module TryUntil
       @rescues    = [ StandardError, Timeout::Error ]
       @condition  = Proc.new { true }
 
-      instance_eval(&block)
+      instance_eval(&block) if block
     end
 
     def tries(tries)
