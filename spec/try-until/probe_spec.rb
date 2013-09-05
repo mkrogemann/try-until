@@ -15,8 +15,6 @@ module TryUntil
 
       it 'takes a block that contains its configuration' do
         probe = Probe.new do
-          tries      7
-          interval   10
           timeout    2.0
           rescues    [ ArgumentError, Timeout::Error ]
         end
