@@ -13,3 +13,5 @@ RSpec.configure do |config|
   config.filter_run :focus
   config.order = 'random'
 end
+
+require 'otravez'
