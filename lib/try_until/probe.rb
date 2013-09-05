@@ -5,8 +5,6 @@ module TryUntil
 
   class Probe
 
-    # attr_reader :tries, :interval, :timeout, :rescues, :condition
-
     def initialize(&block)
       # defaults
       @tries      = 3
@@ -36,6 +34,11 @@ module TryUntil
 
     def condition(condition)
       @condition = condition
+    end
+
+    def configuration()
+      { :tries => @tries, :interval => @interval, :timeout => @timeout,
+        :rescues => @rescues, :condition => @condition }
     end
   end
 end

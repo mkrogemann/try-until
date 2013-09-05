@@ -24,5 +24,11 @@ module TryUntil
         probe.instance_variable_get(:@timeout).should == 2.0
       end
     end
+
+    describe '#configuration' do
+      it 'returns a Hash that contains the configured attributes' do
+        Probe.new.configuration[:rescues].should == [ StandardError, Timeout::Error ]
+      end
+    end
   end
 end
