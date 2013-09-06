@@ -15,12 +15,12 @@ module TryUntil
         probe = Probe.new(target, :some_non_existing_method)
         expect { probe.sample }.to raise_error(NoMethodError)
       end
-
-      describe '#to_s' do
-        it 'produces a human-readable String that contains target class, method and arguments' do
-          probe = Probe.new(Repeater.new, :any_method, [1, "2"])
-          probe.to_s.should == 'Probe: TryUntil::Repeater#any_method([1, "2"])'
-        end
+    end
+    
+    describe '#to_s' do
+      it 'produces a human-readable String that contains target class, method and arguments' do
+        probe = Probe.new(Repeater.new, :any_method, [1, "2"])
+        probe.to_s.should == 'Probe: TryUntil::Repeater#any_method([1, "2"])'
       end
     end
   end
