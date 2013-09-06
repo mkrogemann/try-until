@@ -16,7 +16,7 @@ module TryUntil
         expect { probe.sample }.to raise_error(NoMethodError)
       end
     end
-    
+
     describe '#to_s' do
       it 'produces a human-readable String that contains target class, method and arguments' do
         probe = Probe.new(Repeater.new, :any_method, [1, "2"])
