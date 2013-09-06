@@ -5,3 +5,13 @@ try-until
 [![Code Climate](https://codeclimate.com/github/mkrogemann/try-until.png)](https://codeclimate.com/github/mkrogemann/try-until)
 [![Dependency Status](https://gemnasium.com/mkrogemann/try-until.png)](https://gemnasium.com/mkrogemann/try-until)
 [![Gem Version](https://badge.fury.io/rb/try-until.png)](http://badge.fury.io/rb/try-until)
+
+Supported Rubies
+================
+
+The gem has been developed in MRI 1.9.3 and is being continuously tested in MRI 1.9.3 and 2.0.0 plus jruby-head in 1.9-mode and rbx-head in 1.0-mode.
+
+What's next?
+============
+
+Please let me know what's missing/what would make sense for you
