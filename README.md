@@ -9,7 +9,7 @@ try-until
 Supported Rubies
 ================
 
-The gem has been developed in MRI 1.9.3 and is being continuously tested in MRI 1.9.3 and 2.0.0 plus jruby-head in 1.9-mode and rbx-head in 1.0-mode.
+The gem has been developed in MRI 1.9.3 and is being continuously tested in MRI 1.9.3 and 2.0.0 plus jruby-head in 1.9-mode and rbx-head in 1.9-mode.
 
 What's next?
 ============
