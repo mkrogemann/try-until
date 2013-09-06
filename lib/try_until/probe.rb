@@ -1,8 +1,6 @@
 require 'timeout'
 
 module TryUntil
-  extend self
-
   class Probe
 
     def initialize(&block)
