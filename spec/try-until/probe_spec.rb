@@ -2,30 +2,18 @@ require 'spec_helper'
 
 module TryUntil
   describe Probe do
-    describe '#initialize' do
-      it 'sets default values if empty block is given' do
-        probe = Probe.new {}
-        probe.instance_variable_get(:@tries).should == 3
+    describe '#sample' do
+      it 'samples what its target object responds' do
+        target = Object.new
+        probe = Probe.new(target, :instance_variable_set, [:@some_var, "some_value"])
+        target.should_receive(:instance_variable_set).with(:@some_var, "some_value").once
+        probe.sample
       end
 
-      it 'sets default values if no block is given' do
-        probe = Probe.new
-        probe.instance_variable_get(:@timeout).should == :never
-      end
-
-      it 'takes a block that contains its configuration' do
-        probe = Probe.new do
-          timeout    2.0
-          rescues    [ ArgumentError, Timeout::Error ]
-        end
-        probe.instance_variable_get(:@rescues).should == [ ArgumentError, Timeout::Error ]
-        probe.instance_variable_get(:@timeout).should == 2.0
-      end
-    end
-
-    describe '#configuration' do
-      it 'returns a Hash that contains the configured attributes' do
-        Probe.new.configuration[:rescues].should == [ StandardError, Timeout::Error ]
+      it 'propagates an error raised by the target' do
+        target = Object.new
+        probe = Probe.new(target, :some_non_existing_method)
+        expect { probe.sample }.to raise_error(NoMethodError)
       end
     end
   end
