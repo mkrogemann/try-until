@@ -13,6 +13,10 @@ module TryUntil
     def sample
       @target.send(@method, *@args)
     end
+
+    def to_s
+      "Probe: #{@target.class}##{@method}(#{@args})"
+    end
   end
 end
 
