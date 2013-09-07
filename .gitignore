@@ -18,5 +18,7 @@ _yardoc
 doc/
 
 .rvmrc
+.ruby-gemset
+.ruby-version
 Gemfile.lock
 
