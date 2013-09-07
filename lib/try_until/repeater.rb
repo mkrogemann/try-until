@@ -49,7 +49,7 @@ module TryUntil
           result = @probe.sample
           return result if @condition.call(result)
         rescue *@rescues => exception
-          # no special handling exception handling (yet)
+          # no special handling of exceptions (yet)
         ensure
           count += 1
           Kernel.sleep @interval if @interval > 0
