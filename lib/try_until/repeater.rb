@@ -7,7 +7,7 @@ module TryUntil
       @probe      = nil
       @tries      = 3
       @interval   = 0
-      @timeout    = :never
+      @timeout    = nil
       @rescues    = [ StandardError, Timeout::Error ]
       @condition  = lambda { true }
       instance_eval(&block) if block

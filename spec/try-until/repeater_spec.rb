@@ -10,7 +10,7 @@ module TryUntil
 
       it 'sets default values if no block is given' do
         repeater = Repeater.new
-        repeater.instance_variable_get(:@timeout).should == :never
+        repeater.instance_variable_get(:@interval).should == 0
       end
 
       it 'takes a block that contains its configuration' do
