@@ -15,11 +15,16 @@ module TryUntil
 
       it 'takes a block that contains its configuration' do
         repeater = Repeater.new do
-          timeout    2.0
+          probe      Probe.new(Object.new, :to_s)
+          tries      5
+          interval   1.5
+          timeout    0.5
           rescues    [ ArgumentError, Timeout::Error ]
+          condition  lambda { false }
         end
         repeater.instance_variable_get(:@rescues).should == [ ArgumentError, Timeout::Error ]
-        repeater.instance_variable_get(:@timeout).should == 2.0
+        repeater.instance_variable_get(:@timeout).should == 0.5
+        repeater.instance_variable_get(:@condition).call.should be_false
       end
     end
 
