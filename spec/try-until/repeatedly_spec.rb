@@ -5,7 +5,7 @@ module TryUntil
   class TestTarget
     def initialize; @i = 0; end
     def inc; @i += 1; end
-    def err; @i +=1; return @i if @i > 1; raise ArgumentError; end
+    def err; @i += 1; return @i if @i > 1; raise ArgumentError; end
   end
 
   describe Repeatedly do
@@ -19,12 +19,14 @@ module TryUntil
       end
 
       it 'repeatedly samples its probe until a condition is met, waiting a given time between samples', :type => 'integration' do
+        time_then = Time.now
         Repeatedly.attempt do
           probe       Probe.new(TestTarget.new, :inc)
           tries       5
           interval    0.2
           condition   lambda { |return_value| return_value == 4 }
         end
+        expect(Time.now - time_then).to be > 0.7
       end
 
       it 'repeatedly samples its probe but the condition never gets met', :type => 'integration' do
