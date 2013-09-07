@@ -4,7 +4,7 @@ require File.expand_path('../lib/try_until/version', __FILE__)
 Gem::Specification.new do |gem|
   gem.authors       = ["Markus Krogemann"]
   gem.email         = ["markus@krogemann.de"]
-  gem.description   = %q{The try-until library supports repeatedly calling code that may fail/timeout. Matchers can be used to specify expected result}
+  gem.description   = %q{The try-until library supports repeatedly calling code that may fail or respond with values other than expected. Matchers, realized as lambdas, can be used to specify expected result.}
   gem.summary       = %q{Retry and matching logic}
   gem.homepage      = "https://github.com/mkrogemann/try-until"
   gem.license       = 'MIT'
