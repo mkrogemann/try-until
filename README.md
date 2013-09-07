@@ -9,8 +9,13 @@ try-until
 Usage
 =====
 
+Below is an example that expects a JSON response (eg from a REST call) to contain an 'id' key with a certain value.
+
 ```ruby
+require 'try-until'
+
 include TryUntil
+
 result = Repeatedly.attempt do
   probe       Probe.new(Object.new, :to_s)
   tries       5
