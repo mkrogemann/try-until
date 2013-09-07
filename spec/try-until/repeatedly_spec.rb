@@ -5,6 +5,7 @@ module TryUntil
   class TestTarget
     def initialize; @i = 0; end
     def inc; @i += 1; end
+    def err; @i +=1; return @i if @i > 1; raise ArgumentError; end
   end
 
   describe Repeatedly do
@@ -33,6 +34,15 @@ module TryUntil
             condition   lambda { |return_value| return_value == 7 }
           end
         }.to raise_error(RuntimeError, "After 5 attempts, the expected result was not returned!")
+      end
+
+      it 'rescues from configured a list of errors', :type => 'integration' do
+        Repeatedly.attempt do
+          probe       Probe.new(TestTarget.new, :err)
+          tries       3
+          rescues     [ ArgumentError ]
+          condition   lambda { |return_value| return_value == 2 }
+        end
       end
 
       it 'raises an error if no probe has been setup', :type => 'integration' do
