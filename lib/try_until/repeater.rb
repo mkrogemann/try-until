@@ -49,7 +49,7 @@ module TryUntil
           result = @probe.sample
           return result if @condition.call(result)
         rescue *@rescues => exception
-          # no special handling of exceptions (yet)
+          raise exception, "During final attempt (#{@tries} configured) target returned #{exception}" if count + 1 == @tries
         ensure
           count += 1
           Kernel.sleep @interval if @interval > 0

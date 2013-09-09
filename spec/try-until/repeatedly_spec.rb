@@ -30,7 +30,8 @@ module TryUntil
       end
 
       it 'repeatedly samples its probe but the condition never gets met', :type => 'integration' do
-        expect { Repeatedly.attempt do
+        expect {
+            Repeatedly.attempt do
             probe       Probe.new(TestTarget.new, :inc)
             tries       5
             condition   lambda { |return_value| return_value == 7 }
@@ -38,13 +39,23 @@ module TryUntil
         }.to raise_error(RuntimeError, "After 5 attempts, the expected result was not returned!")
       end
 
-      it 'rescues from configured a list of errors', :type => 'integration' do
+      it 'rescues from a configured list of errors', :type => 'integration' do
         Repeatedly.attempt do
           probe       Probe.new(TestTarget.new, :err)
           tries       3
           rescues     [ ArgumentError ]
           condition   lambda { |return_value| return_value == 2 }
         end
+      end
+
+      it 're-raises an error that it rescues from until number of tries is exceeded' do
+        expect {
+          Repeatedly.attempt do
+            probe     Probe.new(TestTarget.new, :err)
+            tries     2
+            rescues   [ ArgumentError ]
+          end
+        }.to raise_error(ArgumentError)
       end
 
       it 'raises an error if no probe has been setup', :type => 'integration' do
