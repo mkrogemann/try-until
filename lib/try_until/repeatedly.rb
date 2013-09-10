@@ -13,7 +13,7 @@ module TryUntil
   # attempt    = 3
   # interval   = 0
   # rescues    = []
-  # stop_when  = lambda { false }
+  # stop_when  = lambda { |response| false }
   #
   class Repeatedly
 
@@ -46,9 +46,9 @@ module TryUntil
     # In case of errors it will rescue those and continue, provided the type
     # of error is among the ones defined in @rescues.
     def execute
-      raise "No probe given. You must configure a probe!" unless @probe
+      @attempts = 3 unless @attempts
       @interval = 0 unless @interval
-      @stop_when = lambda { false } unless @stop_when
+      @stop_when = lambda { |response| false } unless @stop_when
       @rescues = [] unless @rescues
       count = 0
       while count < @attempts

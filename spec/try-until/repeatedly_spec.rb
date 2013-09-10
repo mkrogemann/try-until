@@ -48,7 +48,7 @@ module TryUntil
       it 're-raises an error that it rescues from when number of attempts is exceeded' do
         probe = Probe.new(TestTarget.new, :err)
         expect {
-          Repeatedly.new(probe).attempts(2).rescues([ ArgumentError ]).execute
+          Repeatedly.new(probe).attempts(1).rescues([ ArgumentError ]).execute
         }.to raise_error(ArgumentError)
       end
 
