@@ -2,22 +2,18 @@ module TryUntil
   # External interface
   # Example:
   # include TryUntil
-  # result = Repeatedly.attempt do
-  #   probe       Probe.new(Object.new, :to_s)
-  #   tries       5
-  #   interval    10
-  #   rescues     [ ArgumentError, IOError ]
-  #   condition   lambda { |response| JSON.parse(response.body)['id'] == 'some_id' }
-  # end
+  # result = Repeatedly.new(Probe.new(Object.new, :to_s))
+  #   .attempts(5)
+  #   .interval(10)
+  #   .rescues([ ArgumentError, IOError ])
+  #   .stop_when(lambda { |response| JSON.parse(response.body)['id'] == 'some_id' })
+  # .execute
   #
   # Not all of the above settings are required. These are the default values:
-  # probe      = nil
-  # tries      = 3
+  # attempt    = 3
   # interval   = 0
   # rescues    = []
-  # condition  = lambda { false }
-  #
-  # If you forget to pass in a probe, you will receive a RuntimeError.
+  # stop_when  = lambda { false }
   #
   class Repeatedly
 
