@@ -24,6 +24,13 @@ module TryUntil
         expect(Time.now - time_then).to be > 0.7
       end
 
+      it 'returns the expected result if the probe returns it within given number of attempts', :type => 'integration' do
+        probe = Probe.new(TestTarget.new, :inc)
+        expected_result = lambda { |return_value| return_value == 4 }
+        probe_returns = Repeatedly.new(probe).attempts(5).interval(0.2).stop_when(expected_result).execute
+        probe_returns.should == 4
+      end
+
       it 'repeatedly samples its probe but the condition never gets met', :type => 'integration' do
         probe = Probe.new(TestTarget.new, :inc)
         expected_result = lambda { |return_value| return_value == 7 }
