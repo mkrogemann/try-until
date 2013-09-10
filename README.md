@@ -16,27 +16,22 @@ require 'try-until'
 
 include TryUntil
 
-result = Repeatedly.attempt do
-  probe       Probe.new(Object.new, :to_s)
-  tries       5
-  interval    10
-  rescues     [ ArgumentError, IOError ]
-  condition   lambda { |response| JSON.parse(response.body)['id'] == 'some_id' }
-end
+result = Repeatedly.new(Probe.new(Target.new, method_sym, [arg_1, arg_2, ...]))
+  .attempts(5)
+  .interval(10)
+  .rescues([ ArgumentError, IOError ])
+  .stop_when(lambda { |response| JSON.parse(response.body)['id'] == 'some_id' })
+.execute
 ```
 
 Not all of the above settings are required. These are the default values:
 
 ```ruby
-probe      = nil
-tries      = 3
+attempts   = 3
 interval   = 0
 rescues    = []
-condition  = lambda { false }
+stop_when  = lambda { false }
 ```
-
-If you forget to pass in a probe, you will receive a RuntimeError.
-
 
 Supported Rubies
 ================
