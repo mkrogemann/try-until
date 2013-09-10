@@ -10,7 +10,7 @@ module TryUntil
   # .execute
   #
   # Not all of the above settings are required. These are the default values:
-  # attempt    = 3
+  # attempts   = 3
   # interval   = 0
   # rescues    = []
   # stop_when  = lambda { |response| false }
