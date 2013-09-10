@@ -9,59 +9,47 @@ module TryUntil
   end
 
   describe Repeatedly do
-    describe '#attempt' do
+    describe '#execute' do
       it 'repeatedly samples its probe until a condition is met', :type => 'integration' do
-        Repeatedly.attempt do
-          probe       Probe.new(TestTarget.new, :inc)
-          tries       5
-          condition   lambda { |return_value| return_value == 4 }
-        end
+        probe = Probe.new(TestTarget.new, :inc)
+        expected_result = lambda { |return_value| return_value == 4 }
+        Repeatedly.new(probe).attempts(5).stop_when(expected_result).execute
       end
 
       it 'repeatedly samples its probe until a condition is met, waiting a given time between samples', :type => 'integration' do
         time_then = Time.now
-        Repeatedly.attempt do
-          probe       Probe.new(TestTarget.new, :inc)
-          tries       5
-          interval    0.2
-          condition   lambda { |return_value| return_value == 4 }
-        end
+        probe = Probe.new(TestTarget.new, :inc)
+        expected_result = lambda { |return_value| return_value == 4 }
+        Repeatedly.new(probe).attempts(5).interval(0.2).stop_when(expected_result).execute
         expect(Time.now - time_then).to be > 0.7
       end
 
       it 'repeatedly samples its probe but the condition never gets met', :type => 'integration' do
+        probe = Probe.new(TestTarget.new, :inc)
+        expected_result = lambda { |return_value| return_value == 7 }
         expect {
-            Repeatedly.attempt do
-            probe       Probe.new(TestTarget.new, :inc)
-            tries       5
-            condition   lambda { |return_value| return_value == 7 }
-          end
+            Repeatedly.new(probe).attempts(5).stop_when(expected_result).execute
         }.to raise_error(RuntimeError, "After 5 attempts, the expected result was not returned!")
       end
 
       it 'rescues from a configured list of errors', :type => 'integration' do
-        Repeatedly.attempt do
-          probe       Probe.new(TestTarget.new, :err)
-          tries       3
-          rescues     [ ArgumentError ]
-          condition   lambda { |return_value| return_value == 2 }
-        end
+        probe = Probe.new(TestTarget.new, :err)
+        expected_result = lambda { |return_value| return_value == 2 }
+        Repeatedly.new(probe).attempts(3).rescues([ ArgumentError ]).stop_when(expected_result).execute
       end
 
-      it 're-raises an error that it rescues from until number of tries is exceeded' do
+      it 're-raises an error that it rescues from when number of attempts is exceeded' do
+        probe = Probe.new(TestTarget.new, :err)
         expect {
-          Repeatedly.attempt do
-            probe     Probe.new(TestTarget.new, :err)
-            tries     2
-            rescues   [ ArgumentError ]
-          end
+          Repeatedly.new(probe).attempts(2).rescues([ ArgumentError ]).execute
         }.to raise_error(ArgumentError)
       end
 
-      it 'raises an error if no probe has been setup', :type => 'integration' do
-        expect {
-          Repeatedly.attempt
-        }.to raise_error(RuntimeError, 'No probe given. You must configure a probe!')
+      describe '#configuration' do
+        it 'returns a Hash that contains the configured attributes' do
+          probe = Probe.new(TestTarget.new, :inc)
+          Repeatedly.new(probe).attempts(3).configuration[:attempts].should == 3
+        end
       end
     end
   end

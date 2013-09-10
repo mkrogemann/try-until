@@ -19,8 +19,8 @@ module TryUntil
 
     describe '#to_s' do
       it 'produces a human-readable String that contains target class, method and arguments' do
-        probe = Probe.new(Repeater.new, :any_method, [1, "2"])
-        probe.to_s.should == 'Probe: TryUntil::Repeater#any_method([1, "2"])'
+        probe = Probe.new(Probe.new(Object.new, :to_s), :any_method, [1, "2"])
+        probe.to_s.should == 'Probe: TryUntil::Probe#any_method([1, "2"])'
       end
     end
   end
