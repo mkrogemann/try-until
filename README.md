@@ -30,8 +30,10 @@ Not all of the above settings are required. These are the default values:
 attempts   = 3
 interval   = 0
 rescues    = []
-stop_when  = lambda { false }
+stop_when  = lambda { |response| false }
 ```
+
+Important: Any lambda you create for the 'stop_when' field MUST start expect one parameter as shown above ('response' in this example). If you forget this, you will run into the dreaded 'wrong number of arguments (1 for 0)' problem.
 
 Supported Rubies
 ================
