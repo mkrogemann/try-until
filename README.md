@@ -33,7 +33,7 @@ rescues    = []
 stop_when  = lambda { |response| false }
 ```
 
-Important: Any lambda you create for the 'stop_when' field MUST start expect one parameter as shown above ('response' in this example). If you forget this, you will run into the dreaded 'wrong number of arguments (1 for 0)' problem.
+WARNING: Any lambda you create for the 'stop_when' field MUST expect one parameter as shown above ('response' in this example). If you forget this, you will run into the dreaded 'wrong number of arguments (1 for 0)' problem.
 
 Supported Rubies
 ================
