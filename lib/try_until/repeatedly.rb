@@ -7,6 +7,7 @@ module TryUntil
   #   .interval(10)
   #   .rescues([ ArgumentError, IOError ])
   #   .stop_when(lambda { |response| JSON.parse(response.body)['id'] == 'some_id' })
+  #   .log_to($stdout)
   # .execute
   #
   # Not all of the above settings are required. These are the default values:
@@ -14,6 +15,7 @@ module TryUntil
   # interval   = 0
   # rescues    = []
   # stop_when  = lambda { |response| false }
+  # log_to     = TryUntil::NullPrinter.new
   #
   class Repeatedly
 
@@ -41,6 +43,11 @@ module TryUntil
       self
     end
 
+    def log_to(io)
+      @log_to = io
+      self
+    end
+
     # The heart of this gem: This method will repeatedly call '#sample' on the
     # subject and evaluate if the expectated result is returned.
     # In case of errors it will rescue those and continue, provided the type
@@ -48,13 +55,18 @@ module TryUntil
     def execute
       @attempts = 3 unless @attempts
       @interval = 0 unless @interval
-      @stop_when = lambda { |response| false } unless @stop_when
       @rescues = [] unless @rescues
+      @stop_when = lambda { |response| false } unless @stop_when
+      @log_to = NullPrinter.new unless @log_to
       count = 0
       while count < @attempts
         begin
           result = @probe.sample
-          return result if @stop_when.call(result)
+          if @stop_when.call(result)
+            @log_to.printf("#{Time.new}|attempt ##{count + 1}|outcome: CONDITION_MET|#{@attempts - count - 1} attempts left\n")
+            return result
+          end
+          @log_to.printf("#{Time.new}|attempt ##{count + 1}|outcome: CONDITION_NOT_MET|#{@attempts - count - 1} attempts left\n")
         rescue *@rescues => exception
           raise exception, "During final attempt (#{@attempts} configured) target returned #{exception}" if count + 1 == @attempts
         ensure

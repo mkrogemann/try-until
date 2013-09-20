@@ -52,6 +52,17 @@ module TryUntil
         }.to raise_error(ArgumentError)
       end
 
+      it 'prints diagnostic output to a given IO object (happy case)' do
+        probe = Probe.new(TestTarget.new, :inc)
+        expected_result = lambda { |return_value| return_value == 4 }
+        io = StringIO.new
+        Repeatedly.new(probe).attempts(5).interval(0.2).stop_when(expected_result).log_to(io).execute
+        log_lines = io.string.split(/\n/)
+        log_lines.size.should == 4
+        log_lines[2].should match /^\d{4}-\d{2}-\d{2} \d{2}\:\d{2}\:\d{2}.*\|attempt #3\|outcome\: CONDITION_NOT_MET\|2 attempts left$/
+        log_lines[3].should match /^\d{4}-\d{2}-\d{2} \d{2}\:\d{2}\:\d{2}.*\|attempt #4\|outcome\: CONDITION_MET\|1 attempts left$/
+      end
+
       describe '#configuration' do
         it 'returns a Hash that contains the configured attributes' do
           probe = Probe.new(TestTarget.new, :inc)
