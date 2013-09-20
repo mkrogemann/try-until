@@ -63,12 +63,12 @@ module TryUntil
         begin
           result = @probe.sample
           if @stop_when.call(result)
-            @log_to.printf("#{Time.new}|attempt ##{count + 1}|outcome: CONDITION_MET|#{@attempts - count - 1} attempts left\n")
+            log_outcome(count, 'CONDITION_MET')
             return result
           end
-          @log_to.printf("#{Time.new}|attempt ##{count + 1}|outcome: CONDITION_NOT_MET|#{@attempts - count - 1} attempts left\n")
+          log_outcome(count, 'CONDITION_NOT_MET')
         rescue *@rescues => exception
-          @log_to.printf("#{Time.new}|attempt ##{count + 1}|outcome: #{exception.class}|#{@attempts - count - 1} attempts left\n")
+          log_outcome(count, exception.class)
           raise exception, "During final attempt (#{@attempts} configured) target returned #{exception}" if count + 1 == @attempts
         ensure
           count += 1
@@ -81,6 +81,11 @@ module TryUntil
     def configuration
       { :probe => @probe.to_s, :attempts => @attempts, :interval => @interval,
         :rescues => @rescues, :stop_when => @stop_when }
+    end
+
+    private
+    def log_outcome(count, outcome)
+      @log_to.printf("#{Time.new}|attempt ##{count + 1}|outcome: #{outcome}|#{@attempts - count - 1} attempts left\n")
     end
   end
 end
