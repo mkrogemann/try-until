@@ -22,3 +22,5 @@ doc/
 .ruby-version
 Gemfile.lock
 
+# Mac stuff
+.DS_Store
