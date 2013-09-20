@@ -20,7 +20,7 @@ MetricFu::Configuration.run do |config|
   config.configure_metric(:cane) do |cane|
     cane.enabled = true
     cane.abc_max = 15         # assignments, branches, conditionals
-    cane.line_length = 120
+    cane.line_length = 140
     # cane.no_doc = 'y'       # accept classes with no doc
     # cane.no_readme = 'y'    # accept project without README
   end
