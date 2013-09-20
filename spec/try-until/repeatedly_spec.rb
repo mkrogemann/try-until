@@ -63,6 +63,18 @@ module TryUntil
         log_lines[3].should match /^\d{4}-\d{2}-\d{2} \d{2}\:\d{2}\:\d{2}.*\|attempt #4\|outcome\: CONDITION_MET\|1 attempts left$/
       end
 
+      it 'prints rescued exceptions to a given IO object' do
+        probe = Probe.new(TestTarget.new, :err)
+        io = StringIO.new
+        expect {
+          Repeatedly.new(probe).attempts(5).interval(0.2).rescues([ ArgumentError ]).log_to(io).execute
+        }.to raise_error
+        log_lines = io.string.split(/\n/)
+        log_lines.size.should == 5
+        log_lines[0].should match /^\d{4}-\d{2}-\d{2} \d{2}\:\d{2}\:\d{2}.*\|attempt #1\|outcome\: ArgumentError\|4 attempts left$/
+        log_lines[4].should match /^\d{4}-\d{2}-\d{2} \d{2}\:\d{2}\:\d{2}.*\|attempt #5\|outcome\: CONDITION_NOT_MET\|0 attempts left$/
+      end
+
       describe '#configuration' do
         it 'returns a Hash that contains the configured attributes' do
           probe = Probe.new(TestTarget.new, :inc)

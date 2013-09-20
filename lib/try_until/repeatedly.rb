@@ -68,6 +68,7 @@ module TryUntil
           end
           @log_to.printf("#{Time.new}|attempt ##{count + 1}|outcome: CONDITION_NOT_MET|#{@attempts - count - 1} attempts left\n")
         rescue *@rescues => exception
+          @log_to.printf("#{Time.new}|attempt ##{count + 1}|outcome: #{exception.class}|#{@attempts - count - 1} attempts left\n")
           raise exception, "During final attempt (#{@attempts} configured) target returned #{exception}" if count + 1 == @attempts
         ensure
           count += 1
