@@ -22,6 +22,7 @@ result = Repeatedly.new(Probe.new(Target.new, method_sym, [arg_1, arg_2, ...]))
   .interval(10)
   .rescues([ ArgumentError, IOError ])
   .stop_when(lambda { |response| JSON.parse(response.body)['id'] == 'some_id' })
+  .log_to($stdout)
 .execute
 ```
 
@@ -32,6 +33,7 @@ attempts   = 3
 interval   = 0
 rescues    = []
 stop_when  = lambda { |response| false }
+log_to     = TryUntil::NullPrinter.new
 ```
 
 WARNING: Any lambda you create for the 'stop_when' field MUST expect one parameter as shown above ('response' in this example). If you forget this, you will run into the dreaded 'wrong number of arguments (1 for 0)' problem.
