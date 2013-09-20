@@ -13,7 +13,7 @@ module TryUntil
       it 'repeatedly samples its probe until a condition is met', :type => 'integration' do
         probe = Probe.new(TestTarget.new, :inc)
         expected_result = lambda { |return_value| return_value == 4 }
-        Repeatedly.new(probe).attempts(5).stop_when(expected_result).execute
+        Repeatedly.new(probe).attempts(5).interval(0.01).stop_when(expected_result).execute
       end
 
       it 'repeatedly samples its probe until a condition is met, waiting a given time between samples', :type => 'integration' do
@@ -35,20 +35,20 @@ module TryUntil
         probe = Probe.new(TestTarget.new, :inc)
         expected_result = lambda { |return_value| return_value == 7 }
         expect {
-            Repeatedly.new(probe).attempts(5).stop_when(expected_result).execute
+            Repeatedly.new(probe).attempts(5).interval(0.01).stop_when(expected_result).execute
         }.to raise_error(RuntimeError, "After 5 attempts, the expected result was not returned!")
       end
 
       it 'rescues from a configured list of errors', :type => 'integration' do
         probe = Probe.new(TestTarget.new, :err)
         expected_result = lambda { |return_value| return_value == 2 }
-        Repeatedly.new(probe).attempts(3).rescues([ ArgumentError ]).stop_when(expected_result).execute
+        Repeatedly.new(probe).attempts(3).interval(0.01).rescues([ ArgumentError ]).stop_when(expected_result).execute
       end
 
       it 're-raises an error that it rescues from when number of attempts is exceeded' do
         probe = Probe.new(TestTarget.new, :err)
         expect {
-          Repeatedly.new(probe).attempts(1).rescues([ ArgumentError ]).execute
+          Repeatedly.new(probe).attempts(1).interval(0.01).rescues([ ArgumentError ]).execute
         }.to raise_error(ArgumentError)
       end
 
@@ -56,7 +56,7 @@ module TryUntil
         probe = Probe.new(TestTarget.new, :inc)
         expected_result = lambda { |return_value| return_value == 4 }
         io = StringIO.new
-        Repeatedly.new(probe).attempts(5).interval(0.2).stop_when(expected_result).log_to(io).execute
+        Repeatedly.new(probe).attempts(5).interval(0.01).stop_when(expected_result).log_to(io).execute
         log_lines = io.string.split(/\n/)
         log_lines.size.should == 4
         log_lines[2].should match /^\d{4}-\d{2}-\d{2} \d{2}\:\d{2}\:\d{2}.*\|attempt #3\|outcome\: CONDITION_NOT_MET\|2 attempts left$/
@@ -67,7 +67,7 @@ module TryUntil
         probe = Probe.new(TestTarget.new, :err)
         io = StringIO.new
         expect {
-          Repeatedly.new(probe).attempts(5).interval(0.2).rescues([ ArgumentError ]).log_to(io).execute
+          Repeatedly.new(probe).attempts(5).interval(0.01).rescues([ ArgumentError ]).log_to(io).execute
         }.to raise_error
         log_lines = io.string.split(/\n/)
         log_lines.size.should == 5
