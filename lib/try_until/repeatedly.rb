@@ -5,6 +5,7 @@ module TryUntil
   # result = Repeatedly.new(Probe.new(Object.new, :to_s))
   #   .attempts(5)
   #   .interval(10)
+  #   .delay(120)
   #   .rescues([ ArgumentError, IOError ])
   #   .stop_when(lambda { |response| JSON.parse(response.body)['id'] == 'some_id' })
   #   .log_to($stdout)
@@ -13,6 +14,7 @@ module TryUntil
   # Not all of the above settings are required. These are the default values:
   # attempts   = 3
   # interval   = 0
+  # delay      = 0
   # rescues    = []
   # stop_when  = lambda { |response| false }
   # log_to     = TryUntil::NullPrinter.new
@@ -30,6 +32,11 @@ module TryUntil
 
     def interval(seconds)
       @interval = seconds
+      self
+    end
+
+    def delay(seconds)
+      @delay = seconds
       self
     end
 
@@ -55,9 +62,12 @@ module TryUntil
     def execute
       @attempts = 3 unless @attempts
       @interval = 0 unless @interval
+      @delay = 0 unless @delay
       @rescues = [] unless @rescues
       @stop_when = lambda { |response| false } unless @stop_when
       @log_to = NullPrinter.new unless @log_to
+
+      Kernel.sleep(@delay) if @delay > 0
       count = 0
       while count < @attempts
         begin

@@ -75,6 +75,15 @@ module TryUntil
         log_lines[4].should match /^\d{4}-\d{2}-\d{2} \d{2}\:\d{2}\:\d{2}.*\|attempt #5\|outcome\: CONDITION_NOT_MET\|0 attempts left$/
       end
 
+      it 'does not start sampling before given delay has elapsed' do
+        probe = Probe.new(TestTarget.new, :inc)
+        Kernel.should_receive(:sleep).with(0.02).once
+        Kernel.should_receive(:sleep).with(0.01).once
+        expect {
+          Repeatedly.new(probe).attempts(1).interval(0.01).delay(0.02).execute
+        }.to raise_error(RuntimeError, 'After 1 attempts, the expected result was not returned!')
+      end
+
       describe '#configuration' do
         it 'returns a Hash that contains the configured attributes' do
           probe = Probe.new(TestTarget.new, :inc)
