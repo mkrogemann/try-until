@@ -20,6 +20,7 @@ include TryUntil
 result = Repeatedly.new(Probe.new(Target.new, method_sym, [arg_1, arg_2, ...]))
   .attempts(5)
   .interval(10)
+  .delay(120)
   .rescues([ ArgumentError, IOError ])
   .stop_when(lambda { |response| JSON.parse(response.body)['id'] == 'some_id' })
   .log_to($stdout)
@@ -31,6 +32,7 @@ Not all of the above settings are required. These are the default values:
 ```ruby
 attempts   = 3
 interval   = 0
+delay      = 0
 rescues    = []
 stop_when  = lambda { |response| false }
 log_to     = TryUntil::NullPrinter.new
