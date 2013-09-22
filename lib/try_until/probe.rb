@@ -11,11 +11,20 @@ module TryUntil
     end
 
     def sample
-      @target.send(@method, *@args)
+      if args_is_one_hash?
+        @target.send(@method, @args)
+      else
+        @target.send(@method, *@args)
+      end
     end
 
     def to_s
       "Probe: #{@target.class}##{@method}(#{@args})"
+    end
+
+    private
+    def args_is_one_hash?
+      @args.class == Hash
     end
   end
 end

@@ -6,6 +6,11 @@ module TryUntil
     def initialize; @i = 0; end
     def inc; @i += 1; end
     def err; @i += 1; return @i if @i > 1; raise ArgumentError; end
+    def receives_hash(options = {})
+      image_ids = options[:image_ids]
+      raise 'expected enumerable' unless image_ids.respond_to?(:each)
+      options[:image_ids]
+    end
   end
 
   describe Repeatedly do
@@ -84,11 +89,22 @@ module TryUntil
         }.to raise_error(RuntimeError, 'After 1 attempts, the expected result was not returned!')
       end
 
-      describe '#configuration' do
-        it 'returns a Hash that contains the configured attributes' do
-          probe = Probe.new(TestTarget.new, :inc)
-          Repeatedly.new(probe).attempts(3).configuration[:attempts].should == 3
-        end
+      it 'preserves a single Hash argument rather than convert it to an array' do
+        target_ami_id = 'ami-some_ami'
+        probe = Probe.new(TestTarget.new, :receives_hash, { :image_ids => [ target_ami_id ] })
+        expected_result = lambda { |response| response == [ target_ami_id ] }
+        Repeatedly.new(probe)
+          .attempts(2)
+          .interval(0.01)
+          .stop_when(expected_result)
+          .execute
+      end
+    end
+
+    describe '#configuration' do
+      it 'returns a Hash that contains the configured attributes' do
+        probe = Probe.new(TestTarget.new, :inc)
+        Repeatedly.new(probe).attempts(3).configuration[:attempts].should == 3
       end
     end
   end
