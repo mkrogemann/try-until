@@ -1,6 +1,13 @@
 Changelog
 =========
 
+Version 0.4.0 - released 2013-09-22
+-------------
+
+* Add rudimentary logging feature. Printing internal state of Repeatedly to given IO object
+* Add delay feature: Do not start sampling the probe until given delay has elapsed
+* Bugfix: A simgle argument given as key value pairs was not preserved as a Hash on arrival at the target object
+
 Version 0.3.0 - released 2013-09-10
 -------------
 
