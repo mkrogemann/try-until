@@ -24,7 +24,7 @@ result = Repeatedly.new(Probe.new(Target.new, method_sym, [arg_1, arg_2, ...]))
   .rescues([ ArgumentError, IOError ])
   .stop_when(lambda { |response| JSON.parse(response.body)['id'] == 'some_id' })
   .log_to($stdout)
-.execute
+  .execute
 ```
 
 Not all of the above settings are required. These are the default values:
