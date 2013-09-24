@@ -1,6 +1,11 @@
 Changelog
 =========
 
+Version 0.4.1 - released 2013-09-24
+-------------
+
+* Bugfix: Repeatedly would sleep at least once even if condition was met after first sample
+
 Version 0.4.0 - released 2013-09-22
 -------------
 
