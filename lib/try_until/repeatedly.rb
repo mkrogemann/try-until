@@ -23,6 +23,7 @@ module TryUntil
 
     def initialize(probe)
       @probe = probe
+      defaults
     end
 
     def attempts(int_num)
@@ -60,13 +61,6 @@ module TryUntil
     # In case of errors it will rescue those and continue, provided the type
     # of error is among the ones defined in @rescues.
     def execute
-      @attempts = 3 unless @attempts
-      @interval = 0 unless @interval
-      @delay = 0 unless @delay
-      @rescues = [] unless @rescues
-      @stop_when = lambda { |response| false } unless @stop_when
-      @log_to = NullPrinter.new unless @log_to
-
       Kernel.sleep(@delay) if @delay > 0
       count = 0
       condition_met = false
@@ -94,12 +88,21 @@ module TryUntil
 
     def configuration
       { :probe => @probe.to_s, :attempts => @attempts, :interval => @interval,
-        :rescues => @rescues, :stop_when => @stop_when }
+        :delay => @delay, :rescues => @rescues, :log_to => @log_to }
     end
 
     private
     def log_outcome(count, outcome)
       @log_to.printf("#{Time.new}|attempt ##{count + 1}|outcome: #{outcome}|#{@attempts - count - 1} attempts left\n")
+    end
+
+    def defaults
+      @attempts = 3 unless @attempts
+      @interval = 0 unless @interval
+      @delay = 0 unless @delay
+      @rescues = [] unless @rescues
+      @stop_when = lambda { |response| false } unless @stop_when
+      @log_to = NullPrinter.new unless @log_to
     end
   end
 end
