@@ -69,10 +69,12 @@ module TryUntil
 
       Kernel.sleep(@delay) if @delay > 0
       count = 0
+      condition_met = false
       while count < @attempts
         begin
           result = @probe.sample
           if @stop_when.call(result)
+            condition_met = true
             log_outcome(count, 'CONDITION_MET')
             return result
           end
@@ -81,8 +83,10 @@ module TryUntil
           log_outcome(count, exception.class)
           raise exception, "During final attempt (#{@attempts} configured) target returned #{exception}" if count + 1 == @attempts
         ensure
-          count += 1
-          Kernel.sleep @interval if @interval > 0
+          unless condition_met
+            count += 1
+            Kernel.sleep @interval if @interval > 0
+          end
         end
       end
       raise "After #{@attempts} attempts, the expected result was not returned!"

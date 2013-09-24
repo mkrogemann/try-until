@@ -22,11 +22,11 @@ module TryUntil
       end
 
       it 'repeatedly samples its probe until a condition is met, waiting a given time between samples', :type => 'integration' do
-        time_then = Time.now
         probe = Probe.new(TestTarget.new, :inc)
         expected_result = lambda { |return_value| return_value == 4 }
+        time_then = Time.now
         Repeatedly.new(probe).attempts(5).interval(0.01).stop_when(expected_result).execute
-        expect(Time.now - time_then).to be > 0.04
+        expect(Time.now - time_then).to be > 0.03
       end
 
       it 'returns the expected result if the probe returns it within given number of attempts', :type => 'integration' do
@@ -98,6 +98,14 @@ module TryUntil
           .interval(0.01)
           .stop_when(expected_result)
           .execute
+      end
+
+      it 'returns immediately without sleeping once the expected outcome is returned by probe' do
+        probe = Probe.new(TestTarget.new, :inc)
+        expected_result = lambda { |return_value| return_value == 1 }
+        time_then = Time.now
+        Repeatedly.new(probe).attempts(5).interval(1).stop_when(expected_result).execute
+        expect(Time.now - time_then).to be < 0.9
       end
     end
 
