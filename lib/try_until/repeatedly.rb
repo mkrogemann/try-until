@@ -62,9 +62,9 @@ module TryUntil
     # of error is among the ones defined in @rescues.
     def execute
       Kernel.sleep(@delay) if @delay > 0
-      count = 0
+      count = 1
       condition_met = false
-      while count < @attempts
+      while count <= @attempts
         begin
           result = @probe.sample
           if @stop_when.call(result)
@@ -75,7 +75,7 @@ module TryUntil
           log_outcome(count, 'CONDITION_NOT_MET')
         rescue *@rescues => exception
           log_outcome(count, exception.class)
-          raise exception, "During final attempt (#{@attempts} configured) target returned #{exception}" if count + 1 == @attempts
+          raise exception, "During final attempt (#{@attempts} configured) target returned #{exception}" if count == @attempts
         ensure
           unless condition_met
             count += 1
@@ -93,7 +93,7 @@ module TryUntil
 
     private
     def log_outcome(count, outcome)
-      @log_to.printf("#{Time.new}|attempt ##{count + 1}|outcome: #{outcome}|#{@attempts - count - 1} attempts left\n")
+      @log_to.printf("#{Time.new}|attempt ##{count}|outcome: #{outcome}|#{@attempts - count} attempts left\n")
     end
 
     def defaults
