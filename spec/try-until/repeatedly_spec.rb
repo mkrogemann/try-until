@@ -85,8 +85,8 @@ module TryUntil
         Kernel.should_receive(:sleep).with(0.02).once
         Kernel.should_receive(:sleep).with(0.01).once
         expect {
-          Repeatedly.new(probe).attempts(1).interval(0.01).delay(0.02).execute
-        }.to raise_error(RuntimeError, 'After 1 attempts, the expected result was not returned!')
+          Repeatedly.new(probe).attempts(2).interval(0.01).delay(0.02).execute
+        }.to raise_error(RuntimeError, 'After 2 attempts, the expected result was not returned!')
       end
 
       it 'preserves a single Hash argument rather than convert it to an array' do
@@ -106,6 +106,16 @@ module TryUntil
         time_then = Time.now
         Repeatedly.new(probe).attempts(5).interval(1).stop_when(expected_result).execute
         expect(Time.now - time_then).to be < 0.9
+      end
+
+      it 'sleeps after taking a sample unless the number of samples taken equals the specified number of attempts' do
+        probe = Probe.new(TestTarget.new, :inc)
+        expected_result = lambda { |return_value| false }
+        time_then = Time.new
+        expect {
+          Repeatedly.new(probe).attempts(3).interval(0.01).stop_when(expected_result).execute
+        }.to raise_error
+        expect(Time.new - time_then).to be < 0.03
       end
     end
 
