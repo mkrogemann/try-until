@@ -14,10 +14,12 @@ Below is an example that expects a JSON response (eg from a REST call) to contai
 
 ```ruby
 require 'try-until'
+require 'json'
 
 include TryUntil
 
-result = Repeatedly.new(Probe.new(Target.new, method_sym, [arg_1, arg_2, ...]))
+probe = Probe.new(Target.new, method_sym, [arg_1, arg_2, ...])
+result = Repeatedly.new(probe)
   .attempts(5)
   .interval(10)
   .delay(120)
@@ -37,6 +39,8 @@ rescues    = []
 stop_when  = lambda { |response| false }
 log_to     = TryUntil::NullPrinter.new
 ```
+
+The implementation of the 'Target' class is not shown here. It can be any Ruby class in your system. An instance of this class serves as the 'target' that you want to repeatedly call.
 
 WARNING: Any lambda you create for the 'stop_when' field MUST expect one parameter as shown above ('response' in this example). If you forget this, you will run into the dreaded 'wrong number of arguments (1 for 0)' problem.
 
