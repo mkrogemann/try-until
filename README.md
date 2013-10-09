@@ -19,6 +19,7 @@ require 'json'
 include TryUntil
 
 probe = Probe.new(Target.new, method_sym, [arg_1, arg_2, ...])
+
 result = Repeatedly.new(probe)
   .attempts(5)
   .interval(10)
@@ -52,4 +53,6 @@ The gem has been developed in MRI 1.9.3 and is being continuously tested in MRI 
 What's next?
 ============
 
-Please let me know what's missing/what would make sense for you
+Pull requests, issue reports and feedback in general are appreciated.
+
+Please let me know what's missing / what would make sense for you
