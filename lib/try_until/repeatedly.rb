@@ -78,7 +78,7 @@ module TryUntil
           raise exception, "During final attempt (#{@attempts} configured) target returned #{exception}" if count == @attempts
         ensure
           unless condition_met
-            Kernel.sleep @interval if @interval > 0 && count < @attempts
+            Kernel.sleep @interval if count < @attempts && @interval > 0
             count += 1
           end
         end
