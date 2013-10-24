@@ -38,6 +38,8 @@ The settings above mean:
  - stop when response document contains 'id' with value 'some_id'
  - log status (condition met, number of attempts left) to sdtout for each try
 
+The example assumes that the target of the repeated call returns an HTTP response with a JSON body.
+
 Not all of these settings are required. These are the default values:
 
 ```ruby
