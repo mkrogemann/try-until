@@ -23,14 +23,22 @@ probe = Probe.new(Target.new, method_sym, [arg_1, arg_2, ...])
 result = Repeatedly.new(probe)
   .attempts(5)
   .interval(10)
-  .delay(120)
+  .delay(10)
   .rescues([ ArgumentError, IOError ])
   .stop_when(lambda { |response| JSON.parse(response.body)['id'] == 'some_id' })
   .log_to($stdout)
   .execute
 ```
 
-Not all of the above settings are required. These are the default values:
+The settings above mean:
+ - try up to five times
+ - waiting ten seconds between tries
+ - with an initial delay of ten seconds
+ - rescue from ArgumentError and IOError (all others will bubble up)
+ - stopen when response document contains 'id' with value 'some_id'
+ - log status (condition met, number of attempts left) to sdtout for each try
+
+Not all of these settings are required. These are the default values:
 
 ```ruby
 attempts   = 3
