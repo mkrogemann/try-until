@@ -14,7 +14,12 @@ Gem::Specification.new do |gem|
   gem.name          = "try-until"
   gem.require_paths = ["lib"]
   gem.version       = TryUntil::VERSION
+
+  if defined?(RUBY_ENGINE) && RUBY_ENGINE == 'rbx'
+    gem.add_runtime_dependency('rubysl', '~> 2.0')
+    gem.add_runtime_dependency('rubinius-coverage', '~> 2.0.3')
+  end
   gem.add_development_dependency('rspec', '~> 2.14.1')
-  gem.add_development_dependency('simplecov', '~> 0.7.1')
+  gem.add_development_dependency('simplecov', '~> 0.8.2')
   gem.add_development_dependency('metric_fu', '~> 4.4.1') unless ENV['TRAVIS'] == 'true'
 end

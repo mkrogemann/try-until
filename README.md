@@ -58,7 +58,7 @@ WARNING: Any lambda you create for the 'stop_when' field MUST expect one paramet
 Supported Rubies
 ================
 
-The gem has been developed in MRI 1.9.3 and is being continuously tested in MRI 1.9.3 and 2.0.0 plus jruby-head in 1.9-mode and rbx-head in 1.9-mode.
+The gem has been developed in MRI 1.9.3 and is being continuously tested in MRI 1.9.3 and 2.0.0 plus jruby-head in 1.9-mode and rbx.
 
 What's next?
 ============

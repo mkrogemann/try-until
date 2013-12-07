@@ -1,6 +1,13 @@
 Changelog
 =========
 
+Version 0.4.3 - released 2013-12-07
+-------------
+
+* Adjust to the changes made in Rubinius/RVM/Travis
+* Update dependencies
+
+
 Version 0.4.2 - released 2013-09-27
 -------------
 
