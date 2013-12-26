@@ -1,6 +1,13 @@
 Changelog
 =========
 
+Version 0.4.4 - released 2013-12-26
+-------------
+
+* Add MRI 2.1.0 to supported versions and .travis.yml
+* No longer support Rubinius and remove rbx from .travis.yml
+
+
 Version 0.4.3 - released 2013-12-07
 -------------
 
