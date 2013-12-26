@@ -5,7 +5,7 @@ module TryUntil
   # result = Repeatedly.new(Probe.new(Object.new, :to_s))
   #   .attempts(5)
   #   .interval(10)
-  #   .delay(120)
+  #   .delay(10)
   #   .rescues([ ArgumentError, IOError ])
   #   .stop_when(lambda { |response| JSON.parse(response.body)['id'] == 'some_id' })
   #   .log_to($stdout)
