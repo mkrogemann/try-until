@@ -55,7 +55,6 @@ In other words, you could simply do this, in case the default values suit your n
 
 ```ruby
 require 'try-until'
-require 'json'
 
 include TryUntil
 
