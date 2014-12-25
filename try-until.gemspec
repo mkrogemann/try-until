@@ -15,7 +15,7 @@ Gem::Specification.new do |gem|
   gem.require_paths = ["lib"]
   gem.version       = TryUntil::VERSION
 
-  gem.add_development_dependency('rspec', '~> 2.14.1')
-  gem.add_development_dependency('simplecov', '~> 0.8.2')
-  gem.add_development_dependency('metric_fu', '~> 4.4.1') unless ENV['TRAVIS'] == 'true'
+  gem.add_development_dependency('rspec', '~> 3.1.0')
+  gem.add_development_dependency('simplecov', '~> 0.9.1')
+  gem.add_development_dependency('metric_fu', '~> 4.11.1') unless ENV['TRAVIS'] == 'true'
 end

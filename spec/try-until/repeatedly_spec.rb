@@ -33,7 +33,7 @@ module TryUntil
         probe = Probe.new(TestTarget.new, :inc)
         expected_result = lambda { |return_value| return_value == 4 }
         probe_returns = Repeatedly.new(probe).attempts(5).interval(0.01).stop_when(expected_result).execute
-        probe_returns.should == 4
+        expect(probe_returns).to eq(4)
       end
 
       it 'repeatedly samples its probe but the condition never gets met', :type => 'integration' do
@@ -63,9 +63,9 @@ module TryUntil
         io = StringIO.new
         Repeatedly.new(probe).attempts(5).interval(0.01).stop_when(expected_result).log_to(io).execute
         log_lines = io.string.split(/\n/)
-        log_lines.size.should == 4
-        log_lines[2].should match /^\d{4}-\d{2}-\d{2} \d{2}\:\d{2}\:\d{2}.*\|attempt #3\|outcome\: CONDITION_NOT_MET\|2 attempts left$/
-        log_lines[3].should match /^\d{4}-\d{2}-\d{2} \d{2}\:\d{2}\:\d{2}.*\|attempt #4\|outcome\: CONDITION_MET\|1 attempts left$/
+        expect(log_lines.size).to eq(4)
+        expect(log_lines[2]).to match /^\d{4}-\d{2}-\d{2} \d{2}\:\d{2}\:\d{2}.*\|attempt #3\|outcome\: CONDITION_NOT_MET\|2 attempts left$/
+        expect(log_lines[3]).to match /^\d{4}-\d{2}-\d{2} \d{2}\:\d{2}\:\d{2}.*\|attempt #4\|outcome\: CONDITION_MET\|1 attempts left$/
       end
 
       it 'prints rescued exceptions to a given IO object' do
@@ -75,15 +75,15 @@ module TryUntil
           Repeatedly.new(probe).attempts(5).interval(0.01).rescues([ ArgumentError ]).log_to(io).execute
         }.to raise_error
         log_lines = io.string.split(/\n/)
-        log_lines.size.should == 5
-        log_lines[0].should match /^\d{4}-\d{2}-\d{2} \d{2}\:\d{2}\:\d{2}.*\|attempt #1\|outcome\: ArgumentError\|4 attempts left$/
-        log_lines[4].should match /^\d{4}-\d{2}-\d{2} \d{2}\:\d{2}\:\d{2}.*\|attempt #5\|outcome\: CONDITION_NOT_MET\|0 attempts left$/
+        expect(log_lines.size).to eq(5)
+        expect(log_lines[0]).to match /^\d{4}-\d{2}-\d{2} \d{2}\:\d{2}\:\d{2}.*\|attempt #1\|outcome\: ArgumentError\|4 attempts left$/
+        expect(log_lines[4]).to match /^\d{4}-\d{2}-\d{2} \d{2}\:\d{2}\:\d{2}.*\|attempt #5\|outcome\: CONDITION_NOT_MET\|0 attempts left$/
       end
 
       it 'does not start sampling before given delay has elapsed' do
         probe = Probe.new(TestTarget.new, :inc)
-        Kernel.should_receive(:sleep).with(0.02).once
-        Kernel.should_receive(:sleep).with(0.01).once
+        expect(Kernel).to receive(:sleep).with(0.02).once
+        expect(Kernel).to receive(:sleep).with(0.01).once
         expect {
           Repeatedly.new(probe).attempts(2).interval(0.01).delay(0.02).execute
         }.to raise_error(RuntimeError, 'After 2 attempts, the expected result was not returned!')
@@ -122,7 +122,7 @@ module TryUntil
     describe '#configuration' do
       it 'returns a Hash that contains the configured attributes' do
         probe = Probe.new(TestTarget.new, :inc)
-        Repeatedly.new(probe).attempts(3).configuration[:attempts].should == 3
+        expect(Repeatedly.new(probe).attempts(3).configuration[:attempts]).to eq(3)
       end
     end
   end

@@ -6,7 +6,7 @@ module TryUntil
       it 'samples what its target object responds' do
         target = Object.new
         probe = Probe.new(target, :instance_variable_set, [:@some_var, "some_value"])
-        target.should_receive(:instance_variable_set).with(:@some_var, "some_value").once
+        expect(target).to receive(:instance_variable_set).with(:@some_var, "some_value").once
         probe.sample
       end
 
@@ -20,7 +20,7 @@ module TryUntil
     describe '#to_s' do
       it 'produces a human-readable String that contains target class, method and arguments' do
         probe = Probe.new(Probe.new(Object.new, :to_s), :any_method, [1, "2"])
-        probe.to_s.should == 'Probe: TryUntil::Probe#any_method([1, "2"])'
+        expect(probe.to_s).to eq('Probe: TryUntil::Probe#any_method([1, "2"])')
       end
     end
   end

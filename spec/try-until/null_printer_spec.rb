@@ -4,13 +4,13 @@ module TryUntil
   describe NullPrinter do
     describe '#printf' do
       it 'responds to #printf' do
-        NullPrinter.new.respond_to?(:printf).should be_true
+        expect(NullPrinter.new.respond_to? :printf).to be_truthy
       end
 
       it 'does not produce any output' do
         io = StringIO.new
         NullPrinter.new.printf(io, 'Hello! What am I?')
-        io.string.should be_empty
+        expect(io.string).to be_empty
       end
     end
   end
