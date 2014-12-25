@@ -10,7 +10,7 @@ try-until
 Usage
 =====
 
-Below is an example that expects a JSON response (eg from a REST call) to contain an 'id' key with a certain value.
+Shown below is an example where we expect some target object to return a JSON response (eg from a REST call) and where we furthermore expect that response to contain an 'id' key with a certain value.
 
 ```ruby
 require 'try-until'
@@ -51,14 +51,29 @@ stop_when  = lambda { |response| false }
 log_to     = TryUntil::NullPrinter.new
 ```
 
+In other words, you could simply do this, in case the default values suit your needs:
+
+```ruby
+require 'try-until'
+require 'json'
+
+include TryUntil
+
+probe = Probe.new(Target.new, method_sym, [arg_1, arg_2, ...])
+
+result = Repeatedly.new(probe).execute
+```
+
+You will most likely want to have at least a sensible value for ```stop_when``` though.
+
 The implementation of the 'Target' class is not shown here. It can be any Ruby class in your system. An instance of this class serves as the 'target' that you want to repeatedly call.
 
-WARNING: Any lambda you create for the 'stop_when' field MUST expect one parameter as shown above ('response' in this example). If you forget this, you will run into the dreaded 'wrong number of arguments (1 for 0)' problem.
+CAUTION: Any lambda you create for the 'stop_when' field MUST expect one parameter as shown above ('response' in this example). If you forget this, you will run into the dreaded 'wrong number of arguments (1 for 0)' problem.
 
 Supported Rubies
 ================
 
-The gem has been developed in MRI 1.9.3 and is being continuously tested in MRI 1.9.3, 2.0.0, 2.1.0 and in jruby-head (1.9-mode).
+The gem has originally been developed in MRI 1.9.3 and is being continuously integrated on Travis CI using MRI 1.9.3, 2.0.0, 2.1.5, 2.2.0 and jruby-head (1.9-mode). Big Kudos to the the [Travis CI](https://travis-ci.org) team!
 
 What's next?
 ============

@@ -1,6 +1,14 @@
 Changelog
 =========
 
+Version 0.4.5 - released 2014-12-26
+-------------
+
+* Add MRI 2.2.0 to supported versions in README.md and in .travis.yml
+* Update test and metrics libraries - adjust to preferred new RSpec 3 syntax
+* Improve / Extend README.md
+
+
 Version 0.4.4 - released 2013-12-26
 -------------
 
