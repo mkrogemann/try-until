@@ -36,7 +36,7 @@ The settings above mean:
  - with an initial delay of ten seconds
  - rescue from ArgumentError and IOError (all others will bubble up)
  - stop when response document contains 'id' with value 'some_id'
- - log status (condition met, number of attempts left) to sdtout for each try
+ - log status (condition met, number of attempts left) to stdout for each try
 
 Not all of these settings are required. These are the default values:
 
