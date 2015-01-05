@@ -65,7 +65,7 @@ You will most likely want to have at least a sensible value for ```stop_when``` 
 
 The implementation of the 'Target' class is not shown here. It can be any Ruby class in your system. An instance of this class serves as the 'target' that you want to repeatedly call.
 
-CAUTION: Any lambda you create for the 'stop_when' field MUST expect one parameter as shown above ('response' in this example). If you forget this, you will run into the dreaded 'wrong number of arguments (1 for 0)' problem.
+CAUTION: Any lambda you create for the 'stop_when' field MUST expect ONE parameter as shown above (arbitrarily named 'response' in this example). It will receive the target object's response. If you forget to supply this parameter, you will run into the dreaded 'wrong number of arguments (1 for 0)' problem.
 
 Supported Rubies
 ================
