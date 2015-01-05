@@ -70,7 +70,7 @@ CAUTION: Any lambda you create for the 'stop_when' field MUST expect ONE paramet
 Supported Rubies
 ================
 
-The gem has originally been developed in MRI 1.9.3 and is being continuously integrated on Travis CI using MRI 1.9.3, 2.0.0, 2.1.5, 2.2.0 and jruby-head (1.9-mode). Big Kudos to the the [Travis CI](https://travis-ci.org) team!
+The gem has originally been developed in MRI 1.9.3 and is being continuously integrated on Travis CI using MRI 1.9.3, 2.0.0, 2.1.5, 2.2.0 and jruby-head (1.9-mode). Big Kudos to the [Travis CI](https://travis-ci.org) team!
 
 What's next?
 ============
