@@ -12,6 +12,9 @@ Usage
 
 Shown below is an example where we expect some target object to return a JSON response (eg from a REST call) and where we furthermore expect that response to contain an 'id' key with a certain value.
 
+The implementation of the 'Target' class is not shown here. It could be any Ruby class in your system. In the example, an instance of that class serves as the 'target' that you want to repeatedly call and verify. 
+Please note that you could also call a method directly on a class, there is no requirement for the target to be 'newable'.
+
 ```ruby
 require 'try-until'
 require 'json'
@@ -62,8 +65,6 @@ result = Repeatedly.new(probe).execute
 ```
 
 You will most likely want to have at least a sensible value for ```stop_when``` though.
-
-The implementation of the 'Target' class is not shown here. It can be any Ruby class in your system. An instance of this class serves as the 'target' that you want to repeatedly call.
 
 CAUTION: Any lambda you create for the 'stop_when' field MUST expect ONE parameter as shown above (arbitrarily named 'response' in this example). It will receive the target object's response. If you forget to supply this parameter, you will run into the dreaded 'wrong number of arguments (1 for 0)' problem.
 
