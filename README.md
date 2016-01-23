@@ -12,7 +12,7 @@ Usage
 
 Shown below is an example where we expect some target object to return a JSON response (eg from a REST call) and where we furthermore expect that response to contain an 'id' key with a certain value.
 
-The implementation of the 'Target' class is not shown here. It could be any Ruby class in your system. In the example, an instance of that class serves as the 'target' that you want to repeatedly call and verify. 
+The implementation of the 'Target' class is not shown here. It could be any Ruby class in your system. In the example, an instance of that class serves as the 'target' that you want to repeatedly call and verify.
 Please note that you could also call a method directly on a class, there is no requirement for the target to be 'newable'.
 
 ```ruby
@@ -71,7 +71,7 @@ CAUTION: Any lambda you create for the 'stop_when' field MUST expect ONE paramet
 Supported Rubies
 ================
 
-The gem has originally been developed in MRI 1.9.3 and is being continuously integrated on Travis CI using MRI 1.9.3, 2.0.0, 2.1.5, 2.2.0 and jruby-head (1.9-mode). Big Kudos to the [Travis CI](https://travis-ci.org) team!
+The gem has been developed in MRI 1.9.3 and is being continuously integrated on Travis CI using MRI 1.9.3, 2.0.0, 2.1.8, 2.2.4, 2.3.0 and jruby-head (1.9-mode). Big Kudos to the [Travis CI](https://travis-ci.org) team!
 
 What's next?
 ============
