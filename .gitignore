@@ -24,3 +24,6 @@ Gemfile.lock
 
 # Mac stuff
 .DS_Store
+
+# VSCode
+.vscode
