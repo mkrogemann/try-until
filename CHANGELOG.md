@@ -1,6 +1,12 @@
 Changelog
 =========
 
+Version 0.4.6 - released 2018-09-08
+-------------
+
+* Add MRI 2.4 and 2.5 to supported versions in README.md and in .travis.yml
+* Fix most rubocop findings in gemspec
+
 Version 0.4.5 - released 2014-12-26
 -------------
 
