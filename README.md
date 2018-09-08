@@ -71,7 +71,7 @@ CAUTION: Any lambda you create for the 'stop_when' field MUST expect ONE paramet
 Supported Rubies
 ================
 
-This gem has (once upon a time) been developed in MRI 1.9.3 and is now being continuously integrated on Travis CI using MRI 2.0.0, 2.1.8, 2.2.4, 2.3.0 and JRuby 9.0.4.0. Big Kudos to the [Travis CI](https://travis-ci.org) team!
+This gem has (once upon a time) been developed in MRI 1.9.3 and is now being continuously integrated on Travis CI using MRI 2.0.x, 2.1.x, 2.2.x, 2.3.x, 2.4.x, 2.5.x and JRuby 9.0.4.0. Big Kudos to the [Travis CI](https://travis-ci.org) team!
 
 It is pretty certain that the gem will still work in Ruby 1.9.3, but some of the development-time dependencies no longer work in that ancient version, so the Travis builds for these versions had to be removed.
 
